@@ -378,7 +378,7 @@ func trimByteOrderMark(body []byte) []byte {
 func (client *Client) UnwrapError(response *http.Response) (err error) {
 	if response.ContentLength == 0 {
 		message := "Request returned status: " + response.Status
-		return &WrappedError{
+		return WrappedError{
 			Message:    &message,
 			StatusCode: &response.StatusCode,
 		}
@@ -415,7 +415,7 @@ func (client *Client) UnwrapError(response *http.Response) (err error) {
 		var wrappedImproperError WrappedImproperError
 		err = json.Unmarshal(body, &wrappedImproperError)
 		if err == nil && wrappedImproperError.Value != nil && wrappedImproperError.Value.Message != nil {
-			return &WrappedError{
+			return WrappedError{
 				Message:    wrappedImproperError.Value.Message,
 				StatusCode: &response.StatusCode,
 			}
